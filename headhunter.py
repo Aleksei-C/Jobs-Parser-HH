@@ -11,6 +11,7 @@ headers = {
     'Connection': 'keep-alive'
   }
 
+
 def extract_max_page():  
   hh_request = requests.get(URL,
     headers=headers)
@@ -29,15 +30,19 @@ def extract_hh_jobs(last_pages):
   #for page in range(last_pages):
   
   result = requests.get(f'{URL}&page=0', headers=headers)
-  print(result.status_code)
   #result = requests.get(f'{URL}&page={page}', headers=headers)
   
   soup = BeautifulSoup(result.text, 'html.parser')
   results = soup.find_all('div', {'class': 'vacancy-serp-item__layout'})
   
   for result in results:
-    print(result.find('a').text)
-
+    # Краткое описание вакансии
+    title = result.find('a').text
+    # Название компании
+    company = result.find('div', {'class': 'vacancy-serp-item__meta-info-company'}).find('a').text
+    # Локация вакансии
+    #companyLocation = result.find('div', {'data-qa': 'vacancy-serp__vacancy-address'}).find('div').text
+    print(company)
 
 
   #return jobs
